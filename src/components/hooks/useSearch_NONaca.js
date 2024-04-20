@@ -9,18 +9,17 @@ const NON_ACADEMIC_SEARCH_ENGINE_KEY =
   process.env.REACT_APP_NON_ACADEMIC_SEARCH_ENGINE_KEY;
 
 export const useSearch_NAC = (searchTerm) => {
-  const [data, setData] = useState("");
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    const fetchData_nonAcademic = async () => {
-      const response = await axios.get(
+    axios
+      .get(
         `${BASE_URL}?key=${API_KEY}&cx=${NON_ACADEMIC_SEARCH_ENGINE_KEY}&q=${searchTerm}`
-      );
-      setData(response?.data);
-    };
-
-    fetchData_nonAcademic();
+      )
+      .then((response) => setData(response?.data))
+      .catch((error) => console.error(error));
   }, [searchTerm]);
+  console.log(data);
   return {
     data,
   };
